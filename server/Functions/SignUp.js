@@ -1,31 +1,60 @@
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
-import Person from "../Models/Person.js";
+import Teacher from "../Models/Teacher.js";
+import Student from "../Models/Student.js";
 
-export async function Signup(req, res) {
+export async function TeacherSignup(req, res) {
     try {
-        const { firstName, lastName, email, password, picturePath, role } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
+        console.log(req.body);
         // Hash password
         const salt = await bcrypt.genSalt();
         const hashPassword = await bcrypt.hash(password, salt);
 
         // Create new user with specified role
-        const newPerson = new Person({
+        const newTeacher = new Teacher({
             firstName,
             lastName,
             email,
             password: hashPassword,
-            picturePath,
-            role // Assign role
         });
 
-        const savePerson = await newPerson.save();
-        res.status(201).json(savePerson);
+        const saveTeacher = await newTeacher.save();
+        res.status(201).json(saveTeacher);
     } catch (err) {
         res.status(500).json(err.message);
     }
 }
+
+export async function StudentSignup(req, res) {
+    try {
+        const { firstName, lastName, email, password,rollNo,branch } = req.body;
+
+        console.log(req.body);
+        console.log("heheh");
+        // Hash password
+        const salt = await bcrypt.genSalt();
+        const hashPassword = await bcrypt.hash(password, salt);
+
+        // Create new user with specified role
+        const newStudent = new Student({
+            firstName,
+            lastName,
+            email,
+            password: hashPassword,
+            rollno:rollNo,
+            branch
+        });
+
+        const saveStudnet = await newStudent.save();
+        res.status(201).json(saveStudnet);
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+}
+
+
 
 
 export const login = async (req, res) => {

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const PersonSchema=new mongoose.Schema({
+const TeacherSchema=new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
@@ -25,9 +25,12 @@ const PersonSchema=new mongoose.Schema({
         required: true,
         min: 5,
       },
-      role: { type: String, enum: ['student', 'teacher'], default: 'student' } // Add role field with default value 'user'
+      courses:{
+        type: [String], // Array of strings to store subjects
+        default: [] // Default value is an empty array 
+      }
 
 });
 
-const Person=mongoose.model('Person',PersonSchema);
-export default Person;
+const Teacher=mongoose.model('Teacher',TeacherSchema);
+export default Teacher;
